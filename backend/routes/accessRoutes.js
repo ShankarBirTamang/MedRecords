@@ -8,11 +8,14 @@ const {
   grantAccess,
   rejectAccess,
   revokeAccess,
+  findPatientByWallet,
 } = require("../controllers/accessController");
+
 
 router.post("/request", protect, requireRole("doctor"), requestAccess);
 router.get("/incoming", protect, requireRole("patient"), getIncomingRequests);
 router.get("/mine", protect, requireRole("doctor"), getMyRequests);
+router.get("/patient/:walletAddress",protect,requireRole("doctor"),findPatientByWallet);
 router.put("/:id/grant", protect, requireRole("patient"), grantAccess);
 router.put("/:id/reject", protect, requireRole("patient"), rejectAccess);
 router.put("/:id/revoke", protect, requireRole("patient"), revokeAccess);

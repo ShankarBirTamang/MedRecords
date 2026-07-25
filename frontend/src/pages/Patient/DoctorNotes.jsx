@@ -1,0 +1,145 @@
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import api from "../../services/api";
+
+export default function DoctorNotes() {
+  const [notes, setNotes] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    async function loadNotes() {
+      try {
+        const { data } = await api.get("/doctor-notes/mine");
+        setNotes(data.notes || []);
+      } catch (err) {
+        setError(
+          err.response?.data?.message ||
+            "Failed to load doctor notes"
+        );
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadNotes();
+  }, []);
+
+  return (
+    <div className="max-w-4xl mx-auto px-6 py-8">
+
+      {/* BACK */}
+      <Link
+        to="/patient"
+        className="text-sm text-primary hover:underline"
+      >
+        &larr; Back to dashboard
+      </Link>
+
+      {/* HEADER */}
+      <div className="mt-5 mb-8">
+        <p className="text-xs uppercase tracking-wide text-muted mb-2">
+          Medical Communication
+        </p>
+
+        <h1 className="text-2xl font-semibold text-ink">
+          Doctor Notes
+        </h1>
+
+        <p className="text-sm text-muted mt-1">
+          View prescriptions, recommendations, diagnoses, and
+          follow-up instructions from your doctors.
+        </p>
+      </div>
+
+      {/* LOADING */}
+      {loading && (
+        <div className="card text-center py-12">
+          <p className="text-muted text-sm">
+            Loading doctor notes...
+          </p>
+        </div>
+      )}
+
+      {/* ERROR */}
+      {error && (
+        <div className="card">
+          <p className="text-danger text-sm">
+            {error}
+          </p>
+        </div>
+      )}
+
+      {/* EMPTY STATE */}
+      {!loading && !error && notes.length === 0 && (
+        <div className="card text-center py-16">
+
+          <div className="text-4xl mb-4">
+            📝
+          </div>
+
+          <h2 className="text-lg font-semibold text-ink">
+            No doctor notes yet
+          </h2>
+
+          <p className="text-sm text-muted mt-2">
+            Your doctors have not added any notes or recommendations yet.
+          </p>
+
+        </div>
+      )}
+
+      {/* NOTES */}
+      {!loading && !error && notes.length > 0 && (
+        <div className="space-y-4">
+
+          {notes.map((note) => (
+            <div
+              key={note._id}
+              className="card"
+            >
+
+              <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
+
+                <div>
+                  <h2 className="text-lg font-semibold text-ink">
+                    {note.title}
+                  </h2>
+
+                  <p className="text-sm text-muted mt-1">
+                    Written by{" "}
+                    <span className="font-medium text-ink">
+                      {note.doctorId?.name || "Doctor"}
+                    </span>
+                  </p>
+
+                  {note.doctorId?.email && (
+                    <p className="text-xs text-muted">
+                      {note.doctorId.email}
+                    </p>
+                  )}
+                </div>
+
+                <p className="text-xs text-muted">
+                  {new Date(note.createdAt).toLocaleString()}
+                </p>
+
+              </div>
+
+              <div className="mt-5 border-t border-slate-200 pt-4">
+
+                <p className="text-sm text-ink whitespace-pre-wrap">
+                  {note.content}
+                </p>
+
+              </div>
+
+            </div>
+          ))}
+
+        </div>
+      )}
+
+    </div>
+  );
+}

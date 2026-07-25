@@ -1,9 +1,8 @@
 import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider, useAuth } from "./context/AuthContext";
-import ProtectedRoute from "./components/ProtectedRoute";
-import Navbar from "./components/Navbar";
 
+import ProtectedRoute from "./components/ProtectedRoute";
 import Login from "./pages/Login";
 import PatientDashboard from "./pages/Patient/PatientDashboard";
 import UploadRecord from "./pages/Patient/UploadRecord";
@@ -12,6 +11,7 @@ import DoctorDashboard from "./pages/Doctor/DoctorDashboard";
 import RequestAccess from "./pages/Doctor/RequestAccess";
 import ViewRecords from "./pages/Doctor/ViewRecords";
 import AdminDashboard from "./pages/Admin/AdminDashboard";
+import DoctorNotes from "./pages/Patient/DoctorNotes";
 
 function Home() {
   const { user } = useAuth();
@@ -23,8 +23,7 @@ function Home() {
 
 function Shell({ children }) {
   return (
-    <div className="min-h-screen bg-white">
-      <Navbar />
+    <div className="min-h-screen bg-[#060F26]">
       {children}
     </div>
   );
@@ -60,6 +59,14 @@ export default function App() {
             element={
               <ProtectedRoute allowedRoles={["patient"]}>
                 <Shell><AccessRequests /></Shell>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/patient/notes"
+            element={
+              <ProtectedRoute allowedRoles={["patient"]}>
+                <Shell><DoctorNotes /></Shell>
               </ProtectedRoute>
             }
           />
