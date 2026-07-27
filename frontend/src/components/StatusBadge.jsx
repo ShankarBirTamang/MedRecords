@@ -13,7 +13,7 @@ export default function StatusBadge({ status }) {
     : "Unknown";
 
   return (
-    <span className={STYLES[status] || "badge bg-slate-100 text-muted"}>
+    <span className={STYLES[status] || "badge badge-revoked"}>
       {label}
     </span>
   );

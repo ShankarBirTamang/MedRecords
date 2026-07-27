@@ -1,7 +1,9 @@
 import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider, useAuth } from "./context/AuthContext";
+import { ThemeProvider } from "./context/ThemeContext";
 
+import Shell from "./components/Shell";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Login from "./pages/Login";
 import PatientDashboard from "./pages/Patient/PatientDashboard";
@@ -21,93 +23,87 @@ function Home() {
   return <Navigate to="/patient" replace />;
 }
 
-function Shell({ children }) {
-  return (
-    <div className="min-h-screen bg-[#060F26]">
-      {children}
-    </div>
-  );
-}
-
 export default function App() {
   return (
-    <AuthProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/login" element={<Login />} />
+    <ThemeProvider>
+      <AuthProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/login" element={<Login />} />
 
-          <Route path="/" element={<Shell><Home /></Shell>} />
+            <Route path="/" element={<Shell><Home /></Shell>} />
 
-          <Route
-            path="/patient"
-            element={
-              <ProtectedRoute allowedRoles={["patient"]}>
-                <Shell><PatientDashboard /></Shell>
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/patient/upload"
-            element={
-              <ProtectedRoute allowedRoles={["patient"]}>
-                <Shell><UploadRecord /></Shell>
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/patient/requests"
-            element={
-              <ProtectedRoute allowedRoles={["patient"]}>
-                <Shell><AccessRequests /></Shell>
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/patient/notes"
-            element={
-              <ProtectedRoute allowedRoles={["patient"]}>
-                <Shell><DoctorNotes /></Shell>
-              </ProtectedRoute>
-            }
-          />
+            <Route
+              path="/patient"
+              element={
+                <ProtectedRoute allowedRoles={["patient"]}>
+                  <Shell><PatientDashboard /></Shell>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/patient/upload"
+              element={
+                <ProtectedRoute allowedRoles={["patient"]}>
+                  <Shell><UploadRecord /></Shell>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/patient/requests"
+              element={
+                <ProtectedRoute allowedRoles={["patient"]}>
+                  <Shell><AccessRequests /></Shell>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/patient/notes"
+              element={
+                <ProtectedRoute allowedRoles={["patient"]}>
+                  <Shell><DoctorNotes /></Shell>
+                </ProtectedRoute>
+              }
+            />
 
-          <Route
-            path="/doctor"
-            element={
-              <ProtectedRoute allowedRoles={["doctor"]}>
-                <Shell><DoctorDashboard /></Shell>
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/doctor/request"
-            element={
-              <ProtectedRoute allowedRoles={["doctor"]}>
-                <Shell><RequestAccess /></Shell>
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/doctor/records/:patientId"
-            element={
-              <ProtectedRoute allowedRoles={["doctor"]}>
-                <Shell><ViewRecords /></Shell>
-              </ProtectedRoute>
-            }
-          />
+            <Route
+              path="/doctor"
+              element={
+                <ProtectedRoute allowedRoles={["doctor"]}>
+                  <Shell><DoctorDashboard /></Shell>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/doctor/request"
+              element={
+                <ProtectedRoute allowedRoles={["doctor"]}>
+                  <Shell><RequestAccess /></Shell>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/doctor/records/:patientId"
+              element={
+                <ProtectedRoute allowedRoles={["doctor"]}>
+                  <Shell><ViewRecords /></Shell>
+                </ProtectedRoute>
+              }
+            />
 
-          <Route
-            path="/admin"
-            element={
-              <ProtectedRoute allowedRoles={["admin"]}>
-                <Shell><AdminDashboard /></Shell>
-              </ProtectedRoute>
-            }
-          />
+            <Route
+              path="/admin"
+              element={
+                <ProtectedRoute allowedRoles={["admin"]}>
+                  <Shell><AdminDashboard /></Shell>
+                </ProtectedRoute>
+              }
+            />
 
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </BrowserRouter>
-    </AuthProvider>
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </BrowserRouter>
+      </AuthProvider>
+    </ThemeProvider>
   );
 }
