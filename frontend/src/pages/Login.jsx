@@ -194,6 +194,11 @@ return ( <div className="min-h-screen bg-[var(--bg-page)] text-[var(--text-prima
 
           </div>
 
+  return (
+    <div className="min-h-screen bg-white flex items-center justify-center px-6">
+      <div className="w-full max-w-md ">
+        <div className="flex w-full justify-center p-4">
+          <img src="/Med.png" alt="" className="h-20 " />
         </div>
 
 
@@ -372,6 +377,50 @@ return ( <div className="min-h-screen bg-[var(--bg-page)] text-[var(--text-prima
 
           <div className="h-px flex-1 bg-[var(--border-color)]" />
 
+          <form onSubmit={handleAuth} className="space-y-4">
+            {mode === "register" && (
+              <>
+                <div>
+                  <label className="label">Full name</label>
+                  <input
+                    className="input"
+                    required
+                    value={form.name}
+                    onChange={(e) => setForm({ ...form, name: e.target.value })}
+                    placeholder="Jane Doe"
+                  />
+                </div>
+                <div>
+                  <label className="label">Email</label>
+                  <input
+                    className="input"
+                    type="email"
+                    required
+                    value={form.email}
+                    onChange={(e) => setForm({ ...form, email: e.target.value })}
+                    placeholder="jane@example.com"
+                  />
+                </div>
+                <div>
+                  <label className="label">I am a</label>
+                  <select
+                    className="input"
+                    value={form.role}
+                    onChange={(e) => setForm({ ...form, role: e.target.value })}
+                  >
+                    <option value="patient">Patient</option>
+                    <option value="doctor">Doctor</option>
+                  </select>
+                </div>
+              </>
+            )}
+
+            {error && <p className="text-sm text-danger">{error}</p>}
+
+            <button className="btn-primary w-full" type="submit" disabled={busy}>
+              {busy ? "Waiting for signature..." : mode === "login" ? "Sign in with wallet" : "Create account"}
+            </button>
+          </form>
         </div>
 
 

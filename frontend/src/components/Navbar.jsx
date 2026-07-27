@@ -53,6 +53,7 @@ export default function Navbar() {
 
 
         {/* RIGHT SIDE */}
+        <img src="/Med.png" alt="" className="h-12"/>
         {user && (
 
           <div className="flex items-center gap-4">
