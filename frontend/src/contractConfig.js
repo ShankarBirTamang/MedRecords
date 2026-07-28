@@ -1,11 +1,10 @@
 // After deploying the contract (see /blockchain/README or root README),
-// set REACT_APP_CONTRACT_ADDRESS in frontend/.env to the deployed address.
+// Contract address and ABI generated from the local Hardhat deployment.
 // The ABI below matches the public functions/events of MedicalRecords.sol —
 // if you change the contract, regenerate this from
 // blockchain/deployed/MedicalRecords.json (the `abi` field).
 
-export const CONTRACT_ADDRESS = process.env.REACT_APP_CONTRACT_ADDRESS || "";
-
+export const CONTRACT_ADDRESS = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
 export const CONTRACT_ABI = [
   "function addRecord(bytes32 fileHash, string fileName) returns (uint256)",
   "function requestAccess(address patient) returns (uint256)",

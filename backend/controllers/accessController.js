@@ -1,6 +1,35 @@
 const AccessRequest = require("../models/AccessRequest");
 const User = require("../models/User");
 
+
+async function findPatientByWallet(req, res) {
+  try {
+    const walletAddress = req.params.walletAddress.toLowerCase();
+
+    const patient = await User.findOne({
+      walletAddress,
+      role: "patient",
+    }).select("name email walletAddress");
+
+    if (!patient) {
+      return res.status(404).json({
+        message: "No patient found with this wallet address",
+      });
+    }
+
+    res.json({
+      patient,
+    });
+  } catch (error) {
+    console.error("Find patient error:", error);
+
+    res.status(500).json({
+      message: "Failed to find patient",
+    });
+  }
+}
+
+
 // POST /api/access/request  (doctor only) { patientWalletAddress, chainRequestId, chainTxHash }
 async function requestAccess(req, res) {
   try {
@@ -34,7 +63,12 @@ async function requestAccess(req, res) {
 
     res.status(201).json({ request });
   } catch (err) {
-    res.status(500).json({ message: "Request failed", error: err.message });
+    console.error("REQUEST ACCESS ERROR:", err);
+
+    res.status(500).json({
+      message: "Request failed",
+      error: err.message,
+    });
   }
 }
 
@@ -87,4 +121,5 @@ module.exports = {
   grantAccess,
   rejectAccess,
   revokeAccess,
+  findPatientByWallet,
 };

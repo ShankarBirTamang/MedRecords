@@ -8,5 +8,13 @@ const STYLES = {
 };
 
 export default function StatusBadge({ status }) {
-  return <span className={STYLES[status] || "badge bg-slate-100 text-muted"}>{status}</span>;
+  const label = status
+    ? status.charAt(0).toUpperCase() + status.slice(1)
+    : "Unknown";
+
+  return (
+    <span className={STYLES[status] || "badge badge-revoked"}>
+      {label}
+    </span>
+  );
 }
