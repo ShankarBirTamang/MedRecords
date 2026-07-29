@@ -2,9 +2,11 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import ThemeSelector from "./ThemeSelector";
+import { useTheme } from "../context/ThemeContext";
 
 export default function Shell({ children }) {
   const { user, logout } = useAuth();
+  const { theme, toggleTheme } = useTheme();
 
   return (
     <div
@@ -23,35 +25,24 @@ export default function Shell({ children }) {
         }}
       >
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-
           {/* LOGO */}
-          <Link
-            to="/"
-            className="flex items-center gap-3"
-          >
+          <Link to="/" className="flex items-center gap-3">
             <img
-              src="/medrecords-logo.png"
+              src="/Med.png"
               alt="MedRecords Logo"
-              className="w-10 h-10 object-contain"
+              className="w-24 object-contain"
             />
-
-            <span
-              className="text-xl font-bold"
-              style={{
-                color: "var(--text-primary)",
-              }}
-            >
-              MedRecords
-            </span>
           </Link>
 
           {/* USER AREA */}
           <div className="flex items-center gap-4">
-
-            <ThemeSelector />
-
+            <button
+              onClick={toggleTheme}
+              className=" rounded-xl border border-[var(--border-color)] bg-[var(--bg-card)] px-4 py-2 text-sm font-medium text-[var(--text-primary)] shadow-card transition hover:bg-[var(--button-primary-soft)]"
+            >
+              {theme === "dark" ? "☀️ Light Mode" : "🌙 Dark Mode"}
+            </button>
             <div className="hidden sm:block text-right">
-
               <p
                 className="text-sm font-semibold"
                 style={{
@@ -69,24 +60,17 @@ export default function Shell({ children }) {
               >
                 {user?.role || "Account"}
               </p>
-
             </div>
 
-            <button
-              onClick={logout}
-              className="btn-outline"
-            >
+            <button onClick={logout} className="btn-outline">
               Logout
             </button>
-
           </div>
         </div>
       </nav>
 
       {/* PAGE CONTENT */}
-      <main className="max-w-7xl mx-auto px-6 py-8">
-        {children}
-      </main>
+      <main className="max-w-7xl mx-auto px-6 py-8">{children}</main>
     </div>
   );
 }

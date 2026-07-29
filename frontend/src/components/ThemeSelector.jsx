@@ -8,7 +8,7 @@ export default function ThemeSelector() {
     <select
       value={theme}
       onChange={(e) => setTheme(e.target.value)}
-      className="rounded-md border px-3 py-2 text-sm transition-colors"
+      className="rounded-md border px-2 py-2 text-sm transition-colors"
       style={{
         color: "var(--text-primary)",
         backgroundColor: "var(--bg-card)",
