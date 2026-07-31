@@ -4,7 +4,9 @@
 // if you change the contract, regenerate this from
 // blockchain/deployed/MedicalRecords.json (the `abi` field).
 
-export const CONTRACT_ADDRESS = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
+export const CONTRACT_ADDRESS =
+  process.env.REACT_APP_CONTRACT_ADDRESS ||
+  "0x5FbDB2315678afecb367f032d93F642f64180aa3";
 export const CONTRACT_ABI = [
   "function addRecord(bytes32 fileHash, string fileName) returns (uint256)",
   "function requestAccess(address patient) returns (uint256)",

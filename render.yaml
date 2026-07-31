@@ -1,0 +1,28 @@
+# Render Blueprint for the MedRecords Express backend.
+# Deploy: Render dashboard -> New -> Blueprint -> pick this repo.
+# Set MONGO_URI in the dashboard (sync:false) to your MongoDB Atlas string.
+services:
+  - type: web
+    name: medrecords-backend
+    runtime: node
+    rootDir: backend
+    plan: free
+    buildCommand: npm install
+    startCommand: node server.js
+    healthCheckPath: /api/health
+    envVars:
+      - key: JWT_SECRET
+        generateValue: true
+      - key: MONGO_URI
+        sync: false
+    # ------------------------------------------------------------------
+    # NOTE: uploaded files live on local disk (backend/uploads/).
+    # The free plan has NO persistent disk -> uploaded files are WIPED on
+    # every deploy/restart. On-chain hashes survive; the file blobs do not.
+    # For durable file storage, upgrade to a paid instance and uncomment:
+    #
+    # disk:
+    #   name: uploads
+    #   mountPath: /opt/render/project/src/backend/uploads
+    #   sizeGB: 1
+    # ------------------------------------------------------------------
