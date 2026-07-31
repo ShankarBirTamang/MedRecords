@@ -6,9 +6,32 @@ stores each file's hash, ownership, and access permissions.
 
 Simple, flat blue-and-white interface — no gradients.
 
-This build runs entirely on a **local Hardhat blockchain** — nothing is
-deployed to a public network. Every transaction uses free, fake test ETH,
-and the chain resets each time you restart `hardhat node`.
+## 🚀 Live Deployment
+
+| Piece | Where | Link |
+|---|---|---|
+| **App (frontend)** | Vercel | **https://medrecords-pearl.vercel.app** |
+| **Backend API** | Render | https://medrecords-backend-pvcw.onrender.com/api |
+| **Smart contract** | Ethereum **Sepolia** testnet | [`0x4a714a0abcA85C6442FE202e7357F27977757b6C`](https://sepolia.etherscan.io/address/0x4a714a0abcA85C6442FE202e7357F27977757b6C) |
+| **Database** | MongoDB Atlas | — |
+
+**Try it:**
+1. Install [MetaMask](https://metamask.io) and switch it to the **Sepolia** network.
+2. Get free Sepolia test ETH from a faucet (e.g. the
+   [Google Web3 faucet](https://cloud.google.com/application/web3/faucet/ethereum/sepolia)).
+3. Open the app, **Register / Log in** (MetaMask signs a message), then upload
+   records, request/grant access, etc.
+
+> **Free-tier notes:** the Render backend **sleeps after ~15 min of inactivity** —
+> the first request after that wakes it (~50s cold start), then it's fast again.
+> Uploaded file blobs are **not persisted** on the free plan (wiped on redeploy);
+> on-chain hashes and MongoDB metadata survive. See `DEPLOY.md` for the durable
+> options and the full deploy walkthrough.
+
+You can also run everything locally on a **local Hardhat blockchain** — nothing
+is required to touch a public network. Every transaction uses free, fake test
+ETH, and the local chain resets each time you restart `hardhat node`. The rest
+of this README covers that local setup; cloud deployment lives in `DEPLOY.md`.
 
 ## How it fits together
 
